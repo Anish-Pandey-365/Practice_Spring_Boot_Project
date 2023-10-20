@@ -53,4 +53,5 @@ public class CompanyServiceImpl implements CompanyService {
 						ApplicationErrorCodes.COMPANY_NOT_FOUND));
 		companyRepository.deleteById(existingCompanyRecord.getId());
 	}
+	// service changed
 }

@@ -29,4 +29,5 @@ public class ApplicationController {
 	private String getLocalizedMessage(String messageCode) {
 		return messageSource.getMessage(messageCode, null, LocaleContextHolder.getLocale());
 	}
+	//controller changed
 }
