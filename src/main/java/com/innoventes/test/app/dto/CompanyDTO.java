@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.*;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -12,12 +14,16 @@ import lombok.Setter;
 public class CompanyDTO {
 
 	private Long id;
-
+     @NotEmpty
+	 @Size(min=5)
 	private String companyName;
-
+      @Email
 	private String email;
-
+    @Positive
 	private Integer strength;
-	
 	private String webSiteURL;
+	@NotEmpty
+	@Pattern(regexp = "^(?i)[a-z]{2}[0-9]{2}[EN]$\n",message = "company code pattern is not right")
+	private String companyCode;
+	//dto changed
 }
