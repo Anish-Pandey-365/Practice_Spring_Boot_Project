@@ -1,13 +1,6 @@
 package com.innoventes.test.app.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -21,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "company")
+@Table(name = "company",uniqueConstraints = @UniqueConstraint(columnNames = "company_code"))
 @Entity
 public class Company extends BaseEntity {
 
@@ -41,4 +34,7 @@ public class Company extends BaseEntity {
 	
 	@Column(name = "website_url")
 	private String webSiteURL;
+
+	@Column(name="company_code")
+	private String companyCode;
 }
