@@ -3,6 +3,7 @@ package com.innoventes.test.app.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.innoventes.test.app.dto.CompanyDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,4 +54,25 @@ public class CompanyServiceImpl implements CompanyService {
 						ApplicationErrorCodes.COMPANY_NOT_FOUND));
 		companyRepository.deleteById(existingCompanyRecord.getId());
 	}
-}
+
+	@Override
+	public Company listCompanyById(long id) {
+
+		Company existingCompanyRecord = companyRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException(
+						String.format(serviceHelper.getLocalizedMessage(ApplicationErrorCodes.COMPANY_NOT_FOUND), id),
+						ApplicationErrorCodes.COMPANY_NOT_FOUND));
+		return existingCompanyRecord;
+
+	}
+
+	@Override
+	public Company listCompanyByCode(String companyCode) {
+		return companyRepository.findByCompanyCode(companyCode)
+				.orElseThrow(() -> new ResourceNotFoundException(
+						"Company with code " + companyCode + " not found",
+						ApplicationErrorCodes.COMPANY_NOT_FOUND));
+	}
+	}
+
+

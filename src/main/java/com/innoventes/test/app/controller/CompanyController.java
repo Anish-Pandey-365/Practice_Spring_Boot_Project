@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.innoventes.test.app.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -43,15 +44,22 @@ public class CompanyController {
 	@GetMapping("/companies")
 	public ResponseEntity<List<CompanyDTO>> getAllCompanies() {
 		List<Company> companyList = companyService.getAllCompanies();
-		
+
 		List<CompanyDTO> companyDTOList = new ArrayList<CompanyDTO>();
-		
+
 		for (Company entity : companyList) {
 			companyDTOList.add(companyMapper.getCompanyDTO(entity));
 		}
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
 		return ResponseEntity.status(HttpStatus.OK).location(location).body(companyDTOList);
+	}
+	@GetMapping("/companies/{id}")
+	public ResponseEntity<?> listCompanyById(@PathVariable("id") long id){
+		Company company = companyService.listCompanyById(id);
+		CompanyDTO companyDTO= companyMapper.getCompanyDTO(company);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+		return ResponseEntity.status(HttpStatus.OK).location(location).body(companyDTO);
 	}
 
 	@PostMapping("/companies")
@@ -82,9 +90,23 @@ public class CompanyController {
 		companyService.deleteCompany(id);
 		return ResponseEntity.noContent().build();
 	}
+	@GetMapping("/companies/byCode/{companyCode}")
+	public ResponseEntity<CompanyDTO> getCompanyByCompanyCode(@PathVariable("companyCode") String companyCode){
+		Company company= companyService.listCompanyByCode(companyCode);
+		if(company!=null){
+			CompanyDTO companyDTO= companyMapper.getCompanyDTO(company);
+
+			return ResponseEntity.status(HttpStatus.OK).body(companyDTO);
+		}else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+	}
 
 	public String getMessage(String exceptionCode) {
 		return messageSource.getMessage(exceptionCode, null, LocaleContextHolder.getLocale());
 	}
+	// changed on 28 oct
+	// again changed
+	// dont push it
 
 }
