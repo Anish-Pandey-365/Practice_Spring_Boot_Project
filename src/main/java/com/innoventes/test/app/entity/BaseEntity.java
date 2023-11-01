@@ -23,6 +23,5 @@ public abstract class BaseEntity {
   @Column(name = "created_date", nullable = false, updatable = false)
   @CreatedDate
   private LocalDateTime createdDate = LocalDateTime.now();
-
 }
 
